@@ -13,6 +13,7 @@ public class correctUit {
                         IsChinadasdwsa(d) || IsChinadwd(d) || IsChinasa(d) || Islasa(d) || Islsa(d) || IsChinasd(d) || IsChinadsasdsawsa(d) || Ismegodsasdsawsa(d) ||
                         Ismegodsasdsawsasa(d) || Isyunnan(d) || Isyunnansad(d) || dalisa(d) || sadsasaw(d) ||
                         sasadssaasaw(d))) {
+            return d;
         } else if ((IsHongKong(d) || IsMaco(d))) {
             return d;
             //不转换
