@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cool_delete.correctpmcoord">
+    package="cool_delete.correctpmcoord"
+    android:versionCode="2"
+    android:versionName="仅中国版">
 
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
