@@ -14,7 +14,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="纠偏pokemon的中国区地图普遍漂移500米的插件" />
+            android:value="纠偏pokemon的中国区地图普遍漂移500米的插件,非fakegps机制 不会封号" />
         <meta-data
             android:name="xposedminversion"
             android:value="46" />
