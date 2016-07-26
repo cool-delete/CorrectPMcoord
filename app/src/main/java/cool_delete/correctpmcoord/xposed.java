@@ -19,26 +19,22 @@ public class xposed implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         if (loadPackageParam.packageName.equals("com.nianticlabs.pokemongo")) {
-            XposedBridge.log("已开启pg");
             XposedHelpers.findAndHookMethod("com.nianticlabs.nia.location.NianticLocationManager", loadPackageParam.classLoader, "locationUpdate",
                     Location.class,
                     int[].class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                        XposedBridge.log("精度: ");
                     if (param.args[0] instanceof Location) {
 
                         double longitude = ((Location) param.args[0]).getLongitude();
                         double latitude = ((Location) param.args[0]).getLatitude();
 //                        param.setResult(param.getResult());
-                        XposedBridge.log("精度: " + longitude + "纬度: " + latitude);
                         Location old = (Location) param.args[0];
-                        double[] loct = correctUit.transform(old.getLatitude(), old.getLongitude());
+                        double[] loct = correctUit.transform(latitude, longitude);
                         old.setLatitude(loct[0]);
                         old.setLongitude(loct[1]);
 //                        param.args[0] = old;
-                        XposedBridge.log("已改");
                     }
                 }
             });
