@@ -9,10 +9,11 @@ public class correctUit {
 
     public static double[] transform(double wgLat, double wgLon) {
         double[] d = new double[]{wgLat, wgLon};
-        if (!(Ischinamid(d) || Islasaanhui(d) || sadssaasaw(d) || dali(d) || sadw(d) || sadsaw(d) || IsChinaab(d) || IsChinaac(d) || IsChinadasdsawsa(d) || IsChinadasdw(d) ||
-                        IsChinadasdwsa(d) || IsChinadwd(d) || IsChinasa(d) || Islasa(d) || Islsa(d) || IsChinasd(d) || IsChinadsasdsawsa(d) || Ismegodsasdsawsa(d) ||
-                        Ismegodsasdsawsasa(d) || Isyunnan(d) || Isyunnansad(d) || dalisa(d) || sadsasaw(d) ||
-                        sasadssaasaw(d))) {
+        if (!(Ischinamid(d) || Islasaanhui(d) || sadssaasaw(d) || dali(d) || sadw(d) || sadsaw(d) || IsChinaab(d)  || IsChinadasdsawsa(d) || IsChinadasdw(d) ||
+                IsChinadasdwsa(d) || IsChinadwd(d) || IsChinasa(d) || Islasa(d) || Islsa(d) || IsChinasd(d) || IsChinadsasdsawsa(d) || Ismegodsasdsawsa(d) ||
+                Ismegodsasdsawsasa(d) || Isyunnan(d) || Isyunnansad(d) || dalisa(d) || sadsasaw(d) ||IsChinadsawd(d)||IsChinadsaaswd(d)||IsChinadsaaaswd(d)||
+                IsChinadsaaswaaswd(d)||
+                sasadssaasaw(d))) {
             return d;
         } else if ((IsHongKong(d) || IsMaco(d))) {
             return d;
@@ -43,6 +44,7 @@ public class correctUit {
         return 22.110815 < doubles[0] && doubles[0] < 22.1974637 && doubles[1] > 113.576953 && doubles[1] < 113.612315;
     }
 
+
     private static boolean Ischinamid(double[] doubles) {
 
         return 30.446978 < doubles[0] && doubles[0] < 41.577437 && doubles[1] > 81.621219 && doubles[1] < 117.590609;
@@ -53,49 +55,67 @@ public class correctUit {
         return 41.577437 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 117.590609 && doubles[1] < 126.578862;
     }
 
-    //鸡冠
-    private static boolean IsChinaac(double[] doubles) {
 
-        return 46.514702 < doubles[0] && doubles[0] < 53.562203 && doubles[1] > 117.590609 && doubles[1] < 134.767475;
-    }
 
-    //从下往上1
+    //从下往上1已确认
     private static boolean IsChinasa(double[] doubles) {
 
         return 41.577437 < doubles[0] && doubles[0] < 42.384865 && doubles[1] > 126.578862 && doubles[1] < 128.041590;
     }
 
-    //从下往上2
+    //从下往上2已确认
     private static boolean IsChinasd(double[] doubles) {
 
         return 42.022723 < doubles[0] && doubles[0] < 42.384865 && doubles[1] > 128.041590 && doubles[1] < 128.964441;
     }
 
-    //42.384861, 128.041583到 43.014628, 129.843348
+    //42.384861, 128.041583到 43.014628, 129.843348已确认
     private static boolean IsChinadwd(double[] doubles) {
 
         return 42.384861 < doubles[0] && doubles[0] < 43.014628 && doubles[1] > 128.041583 && doubles[1] < 129.843348;
     }
 
-    //    43.014628,129.843348 到 44.807133,131.425378
+    //遗漏哈尔滨到朝鲜族自治区
+//    43.014628, 129.843348 dao 46.514702, 126.578862
+    private static boolean IsChinadsawd(double[] doubles) {
+
+        return 43.014628 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 129.843348;
+    }
+
+    //遗漏哈尔滨到鸡西市
+//    46.514702, 126.578862 到 44.807133, 131.425378
+    private static boolean IsChinadsaaswd(double[] doubles) {
+        return 44.807133 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 131.425378;
+    }
+    //遗漏 大兴安宁到鸡西市
+//    52.215973, 126.578862 到 44.807133, 131.42537
+    private static boolean IsChinadsaaaswd(double[] doubles) {
+        return 44.807133 < doubles[0] && doubles[0] < 52.215973 && doubles[1] > 126.578862 && doubles[1] < 131.42537;
+    }
+    //遗漏 鸡西市到 黑龙江嘴 伯力
+//    48.492913, 134.721276 到 44.807133, 131.42537
+    private static boolean IsChinadsaaswaaswd(double[] doubles) {
+        return 44.807133 < doubles[0] && doubles[0] < 48.492913 && doubles[1] > 131.42537 && doubles[1] < 134.721276;
+    }
+    //    43.014628,129.843348 到 44.807133,131.425378已确认
     private static boolean IsChinadasdw(double[] doubles) {
 
         return 43.014628 < doubles[0] && doubles[0] < 44.807133 && doubles[1] > 129.843348 && doubles[1] < 131.425378;
     }
 
-    //    44.807133,131.425378 到  46.514702,134.767475
+    //    44.807133,131.425378 到  46.514702,134.767475已确认
     private static boolean IsChinadasdwsa(double[] doubles) {
 
         return 44.807133 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 131.425378 && doubles[1] < 134.767475;
     }
 
-    //    46.514702,126.578862 dao  41.490017,127.162683
+    //    46.514702,126.578862 dao  41.490017,127.162683已确认
     private static boolean IsChinadasdsawsa(double[] doubles) {
 
         return 41.490017 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 127.162683;
     }
 
-    //        46.514702,126.578862 dao  42.384865,128.041590
+    //        46.514702,126.578862 dao  42.384865,128.041590已确认
     private static boolean IsChinadsasdsawsa(double[] doubles) {
 
         return 42.384865 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 128.041590;
