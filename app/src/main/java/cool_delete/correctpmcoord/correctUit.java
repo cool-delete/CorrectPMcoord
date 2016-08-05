@@ -1,5 +1,7 @@
 package cool_delete.correctpmcoord;
 
+import de.robv.android.xposed.XposedBridge;
+
 /**
  * Created by Administrator on 2016/7/23.
  */
@@ -9,17 +11,19 @@ public class correctUit {
 
     public static double[] transform(double wgLat, double wgLon) {
         double[] d = new double[]{wgLat, wgLon};
-        if (!(Ischinamid(d) || Islasaanhui(d) || sadssaasaw(d) || dali(d) || sadw(d) || sadsaw(d) || IsChinaab(d)  || IsChinadasdsawsa(d) || IsChinadasdw(d) ||
-                IsChinadasdwsa(d) || IsChinadwd(d) || IsChinasa(d) || Islasa(d) || Islsa(d) || IsChinasd(d) || IsChinadsasdsawsa(d) || Ismegodsasdsawsa(d) ||
-                Ismegodsasdsawsasa(d) || Isyunnan(d) || Isyunnansad(d) || dalisa(d) || sadsasaw(d) ||IsChinadsawd(d)||IsChinadsaaswd(d)||IsChinadsaaaswd(d)||
-                IsChinadsaaswaaswd(d)||
-                sasadssaasaw(d))) {
-            return d;
-        } else if ((IsHongKong(d) || IsMaco(d))) {
-            return d;
-            //不转换
-        }
+        if (!isflatlands(d)) {
 
+            if (bigChina(d)) {
+                if (istaiwan(d) || IsHongKong(d) || IsMaco(d)) {
+                    return d;
+                }
+            } else if (!isNortheast(d)) {
+                if (!isSinkiang(d)) {
+                    return d;
+                }
+
+            } else return d;
+        }
         double dLat = transformLat(wgLon - 105.0, wgLat - 35.0);
         double dLon = transformLon(wgLon - 105.0, wgLat - 35.0);
         double radLat = wgLat / 180.0 * pi;
@@ -35,178 +39,62 @@ public class correctUit {
     }
 
     private static boolean IsHongKong(double[] doubles) {
-
-        return 21.803618 < doubles[0] && doubles[0] < 22.502207 && doubles[1] > 113.784522 && doubles[1] < 114.114391;
+        return VincentyDistance(new double[]{22.167733, 114.232372, doubles[0], doubles[1]}) < 41875;
     }
+
+    private static boolean istaiwan(double[] doubles) {
+        return VincentyDistance(new double[]{23.737169, 120.861706, doubles[0], doubles[1]}) < 210683;
+    }
+//    澳门 中心点 22.193464, 113.556572 不需要转换
 
     private static boolean IsMaco(double[] doubles) {
-
-        return 22.110815 < doubles[0] && doubles[0] < 22.1974637 && doubles[1] > 113.576953 && doubles[1] < 113.612315;
+        double[] center = {doubles[0], doubles[1], 22.193464, 113.556572};
+        double[] center2 = {doubles[0], doubles[1], 22.141042, 113.568958};
+        double[] center3 = {doubles[0], doubles[1], 22.131106, 113.512306};
+        return VincentyDistance(center) < 2876 || VincentyDistance(center2) < 3806 && !(VincentyDistance(center3) < 4121);
     }
 
+    //中国大圆中国大圆 中心点 30.426389, 111.695222
+//    1445094.38米
 
-    private static boolean Ischinamid(double[] doubles) {
-
-        return 30.446978 < doubles[0] && doubles[0] < 41.577437 && doubles[1] > 81.621219 && doubles[1] < 117.590609;
-    }//鸡眼
-
-    private static boolean IsChinaab(double[] doubles) {
-
-        return 41.577437 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 117.590609 && doubles[1] < 126.578862;
+    private static boolean isflatlands(double[] doubles) {
+        return VincentyDistance(new double[]{30.647753, 113.649397, doubles[0], doubles[1]}) < 900992;
     }
 
+    private static boolean bigChina(double[] doubles) {
+        double[] center = {30.426389, 111.695222};
+        double[] center1 = {19.327536, 104.523831, doubles[0], doubles[1]};
 
-
-    //从下往上1已确认
-    private static boolean IsChinasa(double[] doubles) {
-
-        return 41.577437 < doubles[0] && doubles[0] < 42.384865 && doubles[1] > 126.578862 && doubles[1] < 128.041590;
+        return VincentyDistance(new double[]{center[0], center[1], doubles[0], doubles[1]}) < 1453117 && !(VincentyDistance(center1) < 415116);
     }
 
-    //从下往上2已确认
-    private static boolean IsChinasd(double[] doubles) {
+    // 中心点 44.058328, 122.859581
+//    1035763
+    private static boolean isNortheast(double[] doubles) {
+        if (VincentyDistance(new double[]{42.631033, 119.845314, doubles[0], doubles[1]}) < 452922) {//小鸡头
+            return true;
+        } else {
 
-        return 42.022723 < doubles[0] && doubles[0] < 42.384865 && doubles[1] > 128.041590 && doubles[1] < 128.964441;
+            double[] center = {44.058328, 122.859581, doubles[0], doubles[1]};
+            double[] center1 = {34.434444, 132.415622, doubles[0], doubles[1]};//
+            double[] center2 = {44.657797, 131.897394, doubles[0], doubles[1]};//
+            double[] center4 = {42.693678, 134.932075, doubles[0], doubles[1]};//
+            double[] center5 = {45.011725, 139.522514, doubles[0], doubles[1]};
+            double[] center6 = {52.181483, 132.985406, doubles[0], doubles[1]};
+            double[] center7 = {51.677600, 102.772353, doubles[0], doubles[1]};
+            return VincentyDistance(center) < 1037119 && !(VincentyDistance(center1) < 918220 || VincentyDistance(center2) < 57154
+                    || VincentyDistance(center4) < 307294 || VincentyDistance(center5) < 476657 || VincentyDistance(center6) < 466000 || VincentyDistance(center7) < 1053281);
+        }
     }
 
-    //42.384861, 128.041583到 43.014628, 129.843348已确认
-    private static boolean IsChinadwd(double[] doubles) {
-
-        return 42.384861 < doubles[0] && doubles[0] < 43.014628 && doubles[1] > 128.041583 && doubles[1] < 129.843348;
+    //    中心点 38.214811, 89.010628
+//            1141248
+    private static boolean isSinkiang(double[] doubles) {
+        double[] center = {doubles[0], doubles[1], 38.214811, 89.010628};
+        double[] center1 = {doubles[0], doubles[1], 51.677600, 102.772353};
+        return VincentyDistance(center) < 1140389 && !(VincentyDistance(center1) < 1052770);
     }
 
-    //遗漏哈尔滨到朝鲜族自治区
-//    43.014628, 129.843348 dao 46.514702, 126.578862
-    private static boolean IsChinadsawd(double[] doubles) {
-
-        return 43.014628 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 129.843348;
-    }
-
-    //遗漏哈尔滨到鸡西市
-//    46.514702, 126.578862 到 44.807133, 131.425378
-    private static boolean IsChinadsaaswd(double[] doubles) {
-        return 44.807133 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 131.425378;
-    }
-    //遗漏 大兴安宁到鸡西市
-//    52.215973, 126.578862 到 44.807133, 131.42537
-    private static boolean IsChinadsaaaswd(double[] doubles) {
-        return 44.807133 < doubles[0] && doubles[0] < 52.215973 && doubles[1] > 126.578862 && doubles[1] < 131.42537;
-    }
-    //遗漏 鸡西市到 黑龙江嘴 伯力
-//    48.492913, 134.721276 到 44.807133, 131.42537
-    private static boolean IsChinadsaaswaaswd(double[] doubles) {
-        return 44.807133 < doubles[0] && doubles[0] < 48.492913 && doubles[1] > 131.42537 && doubles[1] < 134.721276;
-    }
-    //    43.014628,129.843348 到 44.807133,131.425378已确认
-    private static boolean IsChinadasdw(double[] doubles) {
-
-        return 43.014628 < doubles[0] && doubles[0] < 44.807133 && doubles[1] > 129.843348 && doubles[1] < 131.425378;
-    }
-
-    //    44.807133,131.425378 到  46.514702,134.767475已确认
-    private static boolean IsChinadasdwsa(double[] doubles) {
-
-        return 44.807133 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 131.425378 && doubles[1] < 134.767475;
-    }
-
-    //    46.514702,126.578862 dao  41.490017,127.162683已确认
-    private static boolean IsChinadasdsawsa(double[] doubles) {
-
-        return 41.490017 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 127.162683;
-    }
-
-    //        46.514702,126.578862 dao  42.384865,128.041590已确认
-    private static boolean IsChinadsasdsawsa(double[] doubles) {
-
-        return 42.384865 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 126.578862 && doubles[1] < 128.041590;
-    }
-/////以上鸡头完成
-
-    //以下蒙古and内蒙古包括乌鲁木齐 新疆道路
-//    41.577437,80.421735 到 46.514702,117.590609
-    private static boolean Ismegodsasdsawsa(double[] doubles) {
-
-        return 41.577437 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 80.421735 && doubles[1] < 117.590609;
-    }//新疆
-
-    //    37.031062, 74.825134 到 41.577437, 80.421735
-    private static boolean Ismegodsasdsawsasa(double[] doubles) {
-
-        return 37.031062 < doubles[0] && doubles[0] < 41.577437 && doubles[1] > 74.825134 && doubles[1] < 80.421735;
-    }
-
-    //以下西双版纳
-//    21.904831, 101.708679到  23.008556, 98.978870
-    private static boolean Isyunnan(double[] doubles) {
-
-        return 21.904831 < doubles[0] && doubles[0] < 23.008556 && doubles[1] > 98.978870 && doubles[1] < 101.708679;
-    }
-
-    //昆明到南宁之间
-//    22.816715, 106.792602到 29.606909,96.152343
-    private static boolean Isyunnansad(double[] doubles) {
-        return 22.816715 < doubles[0] && doubles[0] < 29.606909 && doubles[1] > 96.152343 && doubles[1] < 106.792602;
-    }
-
-    //拉萨市
-//    29.606909,96.152343 到 30.446978,81.621219
-    private static boolean Islasa(double[] doubles) {
-        return 29.606909 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 81.621219 && doubles[1] < 96.152343;
-    }
-
-    //拉萨到安徽
-//    29.606909,96.152343 到 30.446978,117.590609
-    private static boolean Islasaanhui(double[] doubles) {
-        return 29.606909 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 96.152343 && doubles[1] < 117.590609;
-    }
-
-    //崇左市
-//        22.816715,106.792602 到 21.657005,107.976672
-    private static boolean Islsa(double[] doubles) {
-        return 21.657005 < doubles[0] && doubles[0] < 22.816715 && doubles[1] > 106.792602 && doubles[1] < 107.976672;
-    }
-
-    //北海到安徽
-//    22.816715,106.792602 到  30.446978, 117.590609
-    private static boolean dali(double[] doubles) {
-        return 22.816715 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 106.792602 && doubles[1] < 117.590609;
-    }
-
-    //北海到三亚以东
-//    18.262574, 111.286827 到 21.657005, 107.976672覆盖海南岛
-    private static boolean dalisa(double[] doubles) {
-        return 18.262574 < doubles[0] && doubles[0] < 21.657005 && doubles[1] > 107.976672 && doubles[1] < 111.286827;
-    }
-
-    //崇左市到安徽
-//    22.816715,106.792602 到 30.446978, 117.590609
-    private static boolean sadw(double[] doubles) {
-        return 22.816715 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 106.792602 && doubles[1] < 117.590609;
-    }
-
-    //台南到安徽
-//    23.150483, 119.860839 到 30.446978, 117.590609
-    private static boolean sadsaw(double[] doubles) {
-        return 23.150483 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 117.590609 && doubles[1] < 119.860839;
-    }
-
-    //安徽到台北 覆盖舟山
-//    25.279496, 122.574462 到 30.446978, 117.590609
-    private static boolean sadsasaw(double[] doubles) {
-        return 25.279496 < doubles[0] && doubles[0] < 30.446978 && doubles[1] > 122.574462 && doubles[1] < 117.590609;
-    }
-
-    //安徽到沈阳
-//    41.577437, 124.130455 到 30.446978, 117.590609
-    private static boolean sadssaasaw(double[] doubles) {
-        return 30.446978 < doubles[0] && doubles[0] < 41.577437 && doubles[1] > 117.590609 && doubles[1] < 124.130455;
-    }
-
-    //丹东到哈尔滨覆盖鸭绿江
-//    39.970831, 124.326781 到 46.514702, 126.578862
-    private static boolean sasadssaasaw(double[] doubles) {
-        return 30.446978 < doubles[0] && doubles[0] < 46.514702 && doubles[1] > 124.326781 && doubles[1] < 126.578862;
-    }
 
     private static double transformLon(double x, double y) {
         double ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
@@ -224,4 +112,28 @@ public class correctUit {
         return ret;
     }
 
+    public static double HaverSin(double theta) {
+        double v = Math.sin(theta / 2);
+        return v * v;
+    }
+
+    public static double VincentyDistance(double[] doubles) {
+        double _radiusA = 6378173;
+
+        double lat1 = Math.toRadians(doubles[0]);
+        double lng1 = Math.toRadians(doubles[1]);
+        double lat2 = Math.toRadians(doubles[2]);
+        double lng2 = Math.toRadians(doubles[3]);
+
+        //差值
+        double vLon = Math.abs(lng1 - lng2);
+        double vLat = Math.abs(lat1 - lat2);
+
+        //h is the great circle distance in radians, great circle就是一个球体上的切面，它的圆心即是球心的一个周长最大的圆。
+        double h = HaverSin(vLat) + Math.cos(lat1) * Math.cos(lat2) * HaverSin(vLon);
+
+        return 2 * _radiusA * Math.asin(Math.sqrt(h));
+
+
+    }
 }
